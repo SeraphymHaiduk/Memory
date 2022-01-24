@@ -165,7 +165,6 @@ CMakeFiles/Memory.dir/dataprovider.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCo
 CMakeFiles/Memory.dir/logic.cpp.o: ../dataprovider.h
 CMakeFiles/Memory.dir/logic.cpp.o: ../logic.cpp
 CMakeFiles/Memory.dir/logic.cpp.o: ../logic.h
-CMakeFiles/Memory.dir/logic.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QDebug
 CMakeFiles/Memory.dir/logic.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QJsonDocument
 CMakeFiles/Memory.dir/logic.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QObject
 CMakeFiles/Memory.dir/logic.cpp.o: /usr/include/x86_64-linux-gnu/qt5/QtCore/QTime

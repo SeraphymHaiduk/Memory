@@ -19,7 +19,7 @@ void DataProvider::clearSession(){
     size = 0;
     markCounter = 0;
     time = QTime::fromString("00:00:00","hh:mm:ss");
-    qDebug() << time;
+//    qDebug() << time;
     fieldBool.clear();
     fieldPairs.clear();
     fieldStr.clear();
@@ -172,7 +172,7 @@ void DataProvider::initField(){
         QDir directory(":/Pictures");
         QStringList files = directory.entryList(QStringList(QString("*.png")));
         if(files.size()<count){
-            qDebug() << "Error: files.size() is " << files.size();
+//            qDebug() << "Error: files.size() is " << files.size();
             throw("is few images in folder");
         }
 

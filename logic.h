@@ -10,7 +10,7 @@ class Logic : public QObject
 {
     Q_OBJECT
 public:
-    Logic(DataProvider* dataProvider, QObject *parent = 0);
+    Logic(std::shared_ptr<DataProvider> dataProvider, QObject *parent = 0);
     ~Logic();
 
     Q_INVOKABLE void startNewGame(int size);
@@ -27,7 +27,7 @@ signals:
 
     void victory(QVariant score,bool isRecord);
 private:
-    std::unique_ptr<DataProvider> dataProvider;
+    std::shared_ptr<DataProvider> dataProvider;
     QTimer timer;
     std::pair<int,int> lastPressed;
 };

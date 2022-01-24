@@ -2,7 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include "logic.h"
-
+#include <memory>
 int main(int argc, char *argv[])
 {
 #if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
@@ -13,8 +13,9 @@ int main(int argc, char *argv[])
 
     QQmlApplicationEngine engine;
     //
-    Logic logic(new DataProvider);
-    engine.rootContext()->setContextProperty("controller",&logic);
+    std::shared_ptr<DataProvider> provider(new DataProvider);
+    std::unique_ptr<Logic> logic(new Logic(provider));
+    engine.rootContext()->setContextProperty("controller",logic.get());
     //
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,

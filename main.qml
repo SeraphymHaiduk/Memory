@@ -10,17 +10,16 @@ Window {
     visible: true
     title: qsTr("Hello World")
     function startNewGame(size){
-        menu.closeMenu()
         fieldModel.clear()
         controller.startNewGame(size)
         field.rows = size
         field.cols = size
+        status.updateFlipped(0+"/"+size*size/2)
+        menu.closeMenu()
     }
     Connections{
         target: controller
         onSessionInnitialised:{
-            console.log("qml")
-            console.log("arr: "+images+" size: "+size)
             for(var i = 0; i < size; i++){
                 for(var j = 0; j < size; j++){
                     fieldModel.append({image:"Pictures/"+images[i*size+j],flipped:0})
@@ -31,8 +30,10 @@ Window {
     Connections{
         target: field
         onPressed:{
-            console.log(1)
-            controller.pressOn(pos/field.rows, pos%field.cols)
+            var x = pos/field.cols
+            var y = pos%field.rows
+            console.log( "x: "+parseInt(x), "y: "+y)
+            controller.pressOn(x, y)
         }
     }
     Connections{
@@ -75,7 +76,7 @@ Window {
     Connections{
         target: controller
         onScoreUpdate:{
-            status.updateFlipped(score+"/"+(field.rows**2)/2)
+            status.updateFlipped(score+"/"+(field.cols*field.cols)/2)
         }
     }
     Connections{
@@ -91,21 +92,6 @@ Window {
         }
     }
 
-//    function updateSteps(num){
-//        stepsTxt.text = num
-//    }
-//    function updateFlipped(str){
-//        flippedTxt.text = str
-//    }
-//    function updateTime(str){
-//        timeTxt.text = str
-//    }
-
-/*c++
-    void timeUpdate(QString);
-    void stepsUpdate(int);
-    void scoreUpdate(int);
-*/
     Page{
         anchors.fill: parent
         Component.onCompleted: {
@@ -144,10 +130,6 @@ Window {
                     radius: height/4
                     onPressed: {
                         menu.showRecord(controller.getRecords())
-                        /*{"10":{"steps":47,"time":"00:13:37","size":10},
-                                        "8":{"steps":48,"time":"00:13:37","size":8},
-                                        "6":{"steps":47,"time":"00:14:37","size":6},
-                                        "4":{"steps":47,"time":"00:13:37","size":4}}*/
                     }
                 }
             }
@@ -194,8 +176,10 @@ Window {
         id:scoreMenuComponent
         ScoreMenu{
             id:scoreMenu
+            onBackPressed: {
+                menu.closeMenu()
+            }
         }
-
     }
     Rectangle{
         id:menu
@@ -210,7 +194,7 @@ Window {
             menu.opacity = 1
             loader.sourceComponent = scoreMenuComponent
             loader.item.model.append({"steps":dict["steps"],"time":dict["time"],"size":dict["size"]})
-            loader.item.message = isRecord?"It's new record!\n\tScore:":"Score:"
+            loader.item.message = isRecord?"It's new record!":"Score:"
             loader.item.fontPixelSize = 16
         }
         function showRecord(list){
