@@ -1,6 +1,11 @@
-import QtQuick 2.4
+import QtQuick 2.12
 GridView{
     id: root
+//    Rectangle{
+//        anchors.fill: parent
+//        color: "red"
+//    }
+
     width: 100
     height: width
     signal pressed(int pos)

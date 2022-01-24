@@ -1,0 +1,4 @@
+/home/seraphym/QT/Memory/build/CMakeFiles/rebuild_cache.dir
+/home/seraphym/QT/Memory/build/CMakeFiles/edit_cache.dir
+/home/seraphym/QT/Memory/build/CMakeFiles/Memory.dir
+/home/seraphym/QT/Memory/build/CMakeFiles/Memory_autogen.dir

@@ -1,7 +1,7 @@
 #include "logic.h"
 #include <QDebug>
 #include <iostream>
-#include <QVariantMap>
+#include <QVariant>
 Logic::Logic(DataProvider* dataProvider,QObject* parent) : QObject(parent)
 {
     this->dataProvider = std::unique_ptr<DataProvider>(dataProvider);
@@ -78,6 +78,7 @@ void Logic::startNewGame(int size){
         std::cerr << msg << std::endl;
     }
     emit sessionInnitialised(dataProvider->getNamesField(),dataProvider->getSize());
+    qDebug() << "emit sessionInnitialised";
 //    for(int i = 0; i < 10; i++){
 //        qDebug() << i;
 //        for(int j = 0; j < 10; j++){

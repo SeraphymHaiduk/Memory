@@ -1,6 +1,6 @@
-import QtQuick 2.15
+import QtQuick 2.12
 import QtQuick.Window 2.0
-import QtQuick.Controls 2.15
+import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.12
 
 Window {
@@ -18,24 +18,26 @@ Window {
     }
     Connections{
         target: controller
-        function onSessionInnitialised(arr,size){
+        onSessionInnitialised:{
+            console.log("qml")
+            console.log("arr: "+images+" size: "+size)
             for(var i = 0; i < size; i++){
                 for(var j = 0; j < size; j++){
-                    fieldModel.append({image:"Pictures/"+arr[i*size+j],flipped:0})
+                    fieldModel.append({image:"Pictures/"+images[i*size+j],flipped:0})
                 }
             }
         }
     }
     Connections{
         target: field
-        function onPressed(pos){
+        onPressed:{
             console.log(1)
             controller.pressOn(pos/field.rows, pos%field.cols)
         }
     }
     Connections{
         target: controller
-        function onFlip(x,y){
+        onFlip:{
             fieldModel.set(x*field.rows+y,{"flipped":1})
         }
     }
@@ -52,7 +54,7 @@ Window {
     }
     Connections{
         target: controller
-        function onFlipBack(x1,y1,x2,y2){
+        onFlipBack:{
             fieldModel.set(x2*field.rows+y2,{"flipped":1})
             field.blockField = true
             flipBackTimer.start()
@@ -66,25 +68,25 @@ Window {
     }
     Connections{
         target: controller
-        function onTimeUpdate(time){
+        onTimeUpdate:{
             status.updateTime(Qt.formatTime(time,"hh:mm:ss"))
         }
     }
     Connections{
         target: controller
-        function onScoreUpdate(num){
-            status.updateFlipped(num+"/"+(field.rows**2)/2)
+        onScoreUpdate:{
+            status.updateFlipped(score+"/"+(field.rows**2)/2)
         }
     }
     Connections{
         target: controller
-        function onStepsUpdate(num){
-            status.updateSteps(num)
+        onStepsUpdate:{
+            status.updateSteps(steps)
         }
     }
     Connections{
         target: controller
-        function onVictory(score,isRecord){
+        onVictory:{
             menu.showScore(score,isRecord)
         }
     }

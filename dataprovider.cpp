@@ -4,10 +4,16 @@
 #include <time.h>
 #include <functional>
 #include <QJsonObject>
+#include <QDebug>
+#include <QVariant>
+#include <QVariantMap>
+
 DataProvider::DataProvider()
 {
         clearSession();
 }
+
+
 void DataProvider::clearSession(){
     steps = 0;
     size = 0;
@@ -18,6 +24,8 @@ void DataProvider::clearSession(){
     fieldPairs.clear();
     fieldStr.clear();
 }
+
+
 QVariant DataProvider::getRecords(){
     QFile file("records.json");
     if(!file.open(QIODevice::ReadWrite)){
@@ -36,6 +44,7 @@ QVariant DataProvider::getRecords(){
     }
     return map;
 }
+
 
 bool DataProvider::isRecord(){
     QFile file("records.json");
@@ -83,9 +92,11 @@ bool DataProvider::isRecord(){
     }
 }
 
+
 int DataProvider::getMarkCount(){
     return markCounter;
 }
+
 
 void DataProvider::setSize(int n){
     if(n!=this->size){
@@ -96,12 +107,14 @@ void DataProvider::setSize(int n){
     size = n;
 }
 
+
 void DataProvider::setMark(std::pair<int, int> coord1, std::pair<int, int> coord2){
     qDebug() << 4;
     fieldBool[coord1.first][coord1.second] = true;
     fieldBool[coord2.first][coord2.second] = true;
     markCounter+=1;
 }
+
 
 bool DataProvider::isPairing(std::pair<int,int> coord1,std::pair<int,int> coord2){
     std::pair<int,int> pair = fieldPairs[coord1];
@@ -112,9 +125,13 @@ bool DataProvider::isPairing(std::pair<int,int> coord1,std::pair<int,int> coord2
         return 0;
     }
 }
+
+
 bool DataProvider::isMarked(int x,int y){
     return fieldBool[x][y];
 }
+
+
 void DataProvider::addSec(){
     if(!time.isValid()){
         throw("time property is invalid ♿");
@@ -122,21 +139,27 @@ void DataProvider::addSec(){
     time = time.addSecs(1);
 }
 
+
 QTime DataProvider::getTime(){
     return time;
 }
+
 
 void DataProvider::addStep(){
     steps++;
 }
 
+
 int DataProvider::getSteps(){
     return steps;
 }
 
+
 int DataProvider::getSize(){
     return size;
 }
+
+
 void DataProvider::initField(){
     if(size%2!=0){
         throw("size is not pair");
@@ -146,7 +169,7 @@ void DataProvider::initField(){
     }
     int count = size*size/2;
     if(names.size() == 0){
-        QDir directory("../Memory/Pictures/");
+        QDir directory(":/Pictures");
         QStringList files = directory.entryList(QStringList(QString("*.png")));
         if(files.size()<count){
             qDebug() << "Error: files.size() is " << files.size();
@@ -210,8 +233,6 @@ void DataProvider::initField(){
         fieldStr[i][j] = extendetNames[i*size+j];
     });
 
-
-
 //    for(auto& a: fieldStr){
 //        for(auto b: a){
 //            qDebug() << *b;
@@ -228,6 +249,8 @@ void DataProvider::initField(){
 //Оставить только необходимое количество
 //Рандомно перемешать список
 }
+
+
 QVariant DataProvider::getNamesField(){
     QVariantList lst;
     std::vector<std::vector<QString*>>::iterator it = fieldStr.begin();
